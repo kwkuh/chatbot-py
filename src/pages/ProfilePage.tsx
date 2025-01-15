@@ -32,10 +32,10 @@ const ProfilePage = () => {
   };
 
   const funDescriptions = [
-    "Pembayaran jadi lebih seru! 🎉",
-    "Transfer gampang, hidup senang 💫",
-    "Bayar apa aja, kapan aja! ⚡️",
-    "Simple, aman, terpercaya 🔒",
+    "Link pembayaran yang simpel! 🔗",
+    "Semua rekening dalam satu link 💫",
+    "Bagikan link, terima pembayaran! ⚡️",
+    "Praktis tanpa ribet 🎯",
   ];
 
   return (
@@ -127,12 +127,12 @@ const ProfilePage = () => {
         <div className="space-y-8 max-w-3xl mx-auto px-4">
           <div className="text-center space-y-4">
             <h2 className="text-3xl font-black text-[#221F26] flex items-center justify-center gap-2 animate-fade-in">
-              Metode Pembayaran
+              Detail Rekening
               <span className="animate-bounce">💳</span>
             </h2>
             <p className="text-gray-600 max-w-xl mx-auto">
-              Pilih metode pembayaran yang nyaman buat kamu! 
-              Pembayaran instant dan aman dengan berbagai pilihan bank 🏦
+              Pilih rekening yang kamu mau untuk menerima pembayaran. 
+              Semua rekening kamu ada dalam satu link! 🏦
             </p>
           </div>
           
@@ -195,7 +195,13 @@ const ProfilePage = () => {
           </div>
 
           {/* WhatsApp Share Section */}
-          <div className="mt-12 max-w-xl mx-auto">
+          <div className="mt-16 max-w-xl mx-auto">
+            <div className="text-center mb-8 space-y-2">
+              <h3 className="text-2xl font-bold text-[#221F26]">Konfirmasi Pembayaran</h3>
+              <p className="text-gray-600">
+                Kirim bukti pembayaran langsung ke WhatsApp dengan mudah ✨
+              </p>
+            </div>
             <WhatsAppShare
               accountName={profileData?.bankAccounts[0]?.accountName || ''}
               accountNumber={profileData?.bankAccounts[0]?.accountNumber || ''}
@@ -208,13 +214,13 @@ const ProfilePage = () => {
         <div className="mt-12 space-y-6 max-w-3xl mx-auto">
           <div className="text-center">
             <p className="text-[#403E43] mb-2">
-              WhatsApp untuk konfirmasi:{" "}
+              WhatsApp untuk konfirmasi pembayaran:{" "}
               <span className="font-bold text-[#221F26]">
                 {profileData?.whatsapp} 📱
               </span>
             </p>
             <p className="text-sm text-[#403E43]">
-              (Nomor ini berbeda dengan builder WhatsApp di atas)
+              Konfirmasi pembayaran akan direspon secara manual oleh pemilik rekening
             </p>
           </div>
 
@@ -240,7 +246,7 @@ const ProfilePage = () => {
           <p className="flex items-center justify-center gap-2">
             Made with <Heart className="w-4 h-4 text-red-500 animate-pulse" /> by Kirim.ke
           </p>
-          <p className="mt-2">Simplifying payments, one transfer at a time ✨</p>
+          <p className="mt-2">Satu link untuk semua rekening kamu ✨</p>
         </div>
       </div>
     </div>
