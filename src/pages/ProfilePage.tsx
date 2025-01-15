@@ -1,19 +1,26 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { WhatsAppShare } from "@/components/WhatsAppShare";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Copy, Share2, Heart, Verified } from "lucide-react";
+import { Copy, Share2, Heart } from "lucide-react";
 import { toast } from "sonner";
+import { useEffect } from "react";
 
 const ProfilePage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { username } = useParams();
   const { profileData } = location.state || { profileData: null };
 
-  console.log("Profile Data:", profileData);
+  useEffect(() => {
+    if (!profileData) {
+      navigate(`/not-found?username=${username}`, { replace: true });
+    }
+  }, [profileData, navigate, username]);
 
   const copyProfileLink = () => {
-    const url = `${window.location.origin}/kirim.ke/${profileData?.username}`;
+    const url = `${window.location.origin}/${username}`;
     navigator.clipboard.writeText(url);
     toast.success("Link berhasil disalin! 📋");
   };
@@ -23,7 +30,7 @@ const ProfilePage = () => {
       await navigator.share({
         title: `${profileData?.fullName} - Kirim.ke Payment Profile`,
         text: profileData?.description,
-        url: window.location.href,
+        url: `${window.location.origin}/${username}`,
       });
     } catch (err) {
       console.log("Share failed:", err);
