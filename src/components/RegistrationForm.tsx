@@ -28,9 +28,12 @@ export const RegistrationForm = () => {
     
     toast.success("Profil berhasil dibuat! Mengalihkan ke halaman pembayaran Anda...");
     
-    setTimeout(() => {
-      navigate(`/${formData.username}`);
-    }, 1500);
+    // Navigate to profile page with form data
+    navigate(`/${formData.username}`, { 
+      state: { 
+        profileData: formData 
+      } 
+    });
   };
 
   const addBankAccount = () => {
