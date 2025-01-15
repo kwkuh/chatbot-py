@@ -42,7 +42,7 @@ const Index = () => {
             Bikin link pembayaran kamu jadi auto kece! 🚀
           </p>
           <p className="mt-2 text-lg text-gray-500">
-            Ga perlu ribet share nomor rekening satu-satu, semua ada disini bestie! ✨
+            Ga perlu ribet share nomor rekening satu-satu, semua ada disini! ✨
           </p>
         </header>
 
@@ -85,7 +85,7 @@ const Index = () => {
                 </li>
                 <li className="flex items-start space-x-3">
                   <span className="font-black text-[#1EAEDB]">3.</span>
-                  <span className="font-medium">Share ke semua bestie kamu! 🚀</span>
+                  <span className="font-medium">Share ke semua teman kamu! 🚀</span>
                 </li>
               </ol>
             </div>
