@@ -81,7 +81,7 @@ export const RegistrationForm = () => {
           value={formData.fullName}
           onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
           onKeyPress={(e) => handleKeyPress(e)}
-          className="border-4 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-4 focus:ring-[#1EAEDB] font-bold text-lg h-14"
+          className="border-2 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-2 focus:ring-[#1EAEDB] font-medium text-lg h-12 max-w-md"
         />
       )
     },
@@ -95,9 +95,9 @@ export const RegistrationForm = () => {
             value={formData.username}
             onChange={(e) => setFormData({ ...formData, username: e.target.value })}
             onKeyPress={(e) => handleKeyPress(e)}
-            className="border-4 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-4 focus:ring-[#1EAEDB] font-bold text-lg h-14"
+            className="border-2 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-2 focus:ring-[#1EAEDB] font-medium text-lg h-12 max-w-md"
           />
-          <p className="text-lg text-[#403E43] font-bold">kirim.ke/{formData.username || 'username'}</p>
+          <p className="text-lg text-[#403E43] font-medium">kirim.ke/{formData.username || 'username'}</p>
         </div>
       )
     },
@@ -110,7 +110,7 @@ export const RegistrationForm = () => {
           value={formData.whatsapp}
           onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
           onKeyPress={(e) => handleKeyPress(e)}
-          className="border-4 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-4 focus:ring-[#1EAEDB] font-bold text-lg h-14"
+          className="border-2 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-2 focus:ring-[#1EAEDB] font-medium text-lg h-12 max-w-md"
         />
       )
     },
@@ -123,7 +123,7 @@ export const RegistrationForm = () => {
           value={formData.description}
           onChange={(e) => setFormData({ ...formData, description: e.target.value })}
           onKeyPress={(e) => handleKeyPress(e)}
-          className="border-4 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-4 focus:ring-[#1EAEDB] font-bold text-lg h-14"
+          className="border-2 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-2 focus:ring-[#1EAEDB] font-medium text-lg h-12 max-w-md"
         />
       )
     },
@@ -133,43 +133,43 @@ export const RegistrationForm = () => {
       input: (
         <div className="space-y-6">
           {formData.bankAccounts.map((account, index) => (
-            <Card key={index} className="p-6 border-4 border-[#1EAEDB] bg-white space-y-4">
+            <Card key={index} className="p-4 border-2 border-[#1EAEDB] bg-white space-y-4 max-w-md">
               <div className="space-y-3">
-                <Label className="text-[#221F26] font-black text-lg">Bank</Label>
+                <Label className="text-[#221F26] font-bold text-lg">Bank</Label>
                 <Select
                   value={account.bank}
                   onValueChange={(value) => updateBankAccount(index, 'bank', value)}
                 >
-                  <SelectTrigger className="border-4 border-[#1EAEDB] bg-white text-[#221F26] font-bold h-14">
+                  <SelectTrigger className="border-2 border-[#1EAEDB] bg-white text-[#221F26] font-medium h-12">
                     <SelectValue placeholder="Pilih Bank" />
                   </SelectTrigger>
                   <SelectContent>
                     {["BCA", "Mandiri", "BNI", "BRI", "DANA", "GoPay", "OVO", "ShopeePay"].map((bank) => (
-                      <SelectItem key={bank} value={bank} className="font-bold">{bank}</SelectItem>
+                      <SelectItem key={bank} value={bank} className="font-medium">{bank}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="space-y-3">
-                <Label className="text-[#221F26] font-black text-lg">Nomor Rekening</Label>
+                <Label className="text-[#221F26] font-bold text-lg">Nomor Rekening</Label>
                 <Input
                   placeholder="Masukkan nomor rekening"
                   value={account.accountNumber}
                   onChange={(e) => updateBankAccount(index, 'accountNumber', e.target.value)}
                   onKeyPress={(e) => handleKeyPress(e, false)}
-                  className="border-4 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-4 focus:ring-[#1EAEDB] font-bold text-lg h-14"
+                  className="border-2 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-2 focus:ring-[#1EAEDB] font-medium text-lg h-12"
                 />
               </div>
 
               <div className="space-y-3">
-                <Label className="text-[#221F26] font-black text-lg">Nama Pemilik Rekening</Label>
+                <Label className="text-[#221F26] font-bold text-lg">Nama Pemilik Rekening</Label>
                 <Input
                   placeholder="Nama sesuai rekening"
                   value={account.accountName}
                   onChange={(e) => updateBankAccount(index, 'accountName', e.target.value)}
                   onKeyPress={(e) => handleKeyPress(e, false)}
-                  className="border-4 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-4 focus:ring-[#1EAEDB] font-bold text-lg h-14"
+                  className="border-2 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-2 focus:ring-[#1EAEDB] font-medium text-lg h-12"
                 />
               </div>
             </Card>
@@ -179,7 +179,7 @@ export const RegistrationForm = () => {
             type="button"
             onClick={addBankAccount}
             variant="outline"
-            className="w-full border-4 border-dashed border-[#1EAEDB] hover:border-[#0FA0CE] text-[#1EAEDB] hover:text-[#0FA0CE] font-black text-xl h-14"
+            className="w-full max-w-md border-2 border-dashed border-[#1EAEDB] hover:border-[#0FA0CE] text-[#1EAEDB] hover:text-[#0FA0CE] font-bold text-lg h-12"
           >
             + Tambah Rekening Bank
           </Button>
@@ -207,20 +207,31 @@ export const RegistrationForm = () => {
         <div className="space-y-8">
           <div className="flex flex-col space-y-6">
             {steps.slice(0, currentStep + 1).map((step, index) => (
-              <Card key={index} className={`p-6 glass-effect transform transition-all duration-300 ${index === currentStep ? 'scale-100 opacity-100' : 'scale-95 opacity-80'}`}>
-                <div className="space-y-4">
-                  <div className="flex items-start space-x-4">
-                    <div className="w-10 h-10 rounded-full tech-gradient flex items-center justify-center flex-shrink-0">
-                      <span className="text-white font-bold">{index + 1}</span>
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="text-xl font-black text-[#1EAEDB] mb-2">{step.title}</h4>
-                      <p className="text-[#403E43] font-bold mb-4">{step.message}</p>
-                      {step.input}
+              <div key={index} className={`transform transition-all duration-300 ${index === currentStep ? 'scale-100 opacity-100' : 'scale-95 opacity-80'}`}>
+                <div className="flex items-start space-x-4 mb-4">
+                  <div className="w-10 h-10 rounded-full bg-[#1EAEDB] flex items-center justify-center flex-shrink-0">
+                    <span className="text-white font-bold">🤖</span>
+                  </div>
+                  <div className="flex-1">
+                    <div className="bg-[#F0F7FF] rounded-2xl p-4 inline-block max-w-[80%]">
+                      <p className="text-[#403E43] font-medium">{step.message}</p>
                     </div>
                   </div>
                 </div>
-              </Card>
+
+                {(formData[step.title.toLowerCase().replace(' ', '') as keyof typeof formData] || index === currentStep) && (
+                  <div className="flex items-start space-x-4 justify-end">
+                    <div className="flex-1 flex justify-end">
+                      <div className="bg-white border-2 border-[#1EAEDB] rounded-2xl p-4 inline-block max-w-[80%]">
+                        {step.input}
+                      </div>
+                    </div>
+                    <div className="w-10 h-10 rounded-full bg-[#1EAEDB] flex items-center justify-center flex-shrink-0">
+                      <span className="text-white font-bold">👤</span>
+                    </div>
+                  </div>
+                )}
+              </div>
             ))}
           </div>
 
@@ -230,7 +241,7 @@ export const RegistrationForm = () => {
                 type="button"
                 onClick={() => setCurrentStep(prev => prev - 1)}
                 variant="outline"
-                className="border-4 border-[#1EAEDB] text-[#1EAEDB] hover:bg-[#1EAEDB]/10 font-black text-lg px-8 py-6"
+                className="border-2 border-[#1EAEDB] text-[#1EAEDB] hover:bg-[#1EAEDB]/10 font-bold text-lg px-6 h-12"
               >
                 ← Kembali
               </Button>
@@ -239,14 +250,14 @@ export const RegistrationForm = () => {
               <Button
                 type="button"
                 onClick={() => setCurrentStep(prev => prev + 1)}
-                className="ml-auto bg-[#1EAEDB] hover:bg-[#0FA0CE] text-white font-black text-lg px-8 py-6"
+                className="ml-auto bg-[#1EAEDB] hover:bg-[#0FA0CE] text-white font-bold text-lg px-6 h-12"
               >
                 Lanjut →
               </Button>
             ) : (
               <Button
                 type="submit"
-                className="ml-auto bg-[#1EAEDB] hover:bg-[#0FA0CE] text-white font-black text-lg px-8 py-6"
+                className="ml-auto bg-[#1EAEDB] hover:bg-[#0FA0CE] text-white font-bold text-lg px-6 h-12"
               >
                 Buat Halaman Payment ✨
               </Button>
