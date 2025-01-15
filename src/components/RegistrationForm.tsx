@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,8 +15,6 @@ export const RegistrationForm = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isTyping, setIsTyping] = useState(false);
   const [usernameError, setUsernameError] = useState("");
-  const loadingRef = useRef<HTMLDivElement>(null);
-  
   const [formData, setFormData] = useState({
     fullName: "",
     username: "",
@@ -32,6 +30,7 @@ export const RegistrationForm = () => {
   });
 
   const checkUsername = async (username: string) => {
+    // Simulate API call to check username availability
     const takenUsernames = ["kukuh", "admin", "test", "demo"];
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -63,16 +62,9 @@ export const RegistrationForm = () => {
     setIsLoading(true);
     setIsTyping(true);
     
-    // Store profile data in localStorage
-    localStorage.setItem(`profile_${formData.username}`, JSON.stringify(formData));
-    
     setTimeout(() => {
       setIsTyping(false);
       let currentProgress = 0;
-      
-      // Scroll to loading section
-      loadingRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      
       const interval = setInterval(() => {
         currentProgress += 2;
         setProgress(currentProgress);
@@ -95,6 +87,7 @@ export const RegistrationForm = () => {
     if (e.key === 'Enter') {
       e.preventDefault();
       if (nextStep) {
+        // Only proceed if username is valid when on username step
         if (currentStep === 1 && (formData.username.length < 5 || usernameError.includes("digunakan"))) {
           toast.error("Username tidak valid atau sudah digunakan!");
           return;
@@ -246,18 +239,18 @@ export const RegistrationForm = () => {
   ];
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8 w-full max-w-3xl mx-auto px-4 md:px-0">
+    <form onSubmit={handleSubmit} className="space-y-8 w-full max-w-3xl mx-auto">
       <div className="text-center mb-12">
-        <h3 className="text-3xl md:text-4xl font-black text-[#1EAEDB] mb-4 [text-shadow:_2px_2px_0_rgb(0_0_0_/_20%)]">
+        <h3 className="text-4xl font-black text-[#1EAEDB] mb-4 [text-shadow:_2px_2px_0_rgb(0_0_0_/_20%)]">
           Buat Profil Pembayaran
         </h3>
-        <p className="text-[#403E43] font-bold text-lg md:text-xl">
+        <p className="text-[#403E43] font-bold text-xl">
           Bagikan semua rekening bank kamu dalam satu link 🎯
         </p>
       </div>
 
       {isLoading ? (
-        <div className="space-y-4 mb-8" ref={loadingRef}>
+        <div className="space-y-4 mb-8">
           <div className="flex items-center justify-between">
             <span className="text-2xl">🚀</span>
             <span className="font-bold text-[#1EAEDB]">{progress}%</span>
@@ -318,6 +311,7 @@ export const RegistrationForm = () => {
               <Button
                 type="button"
                 onClick={() => {
+                  // Check username validity before proceeding
                   if (currentStep === 1 && (formData.username.length < 5 || usernameError.includes("digunakan"))) {
                     toast.error("Username tidak valid atau sudah digunakan!");
                     return;
