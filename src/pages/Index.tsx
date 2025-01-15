@@ -4,8 +4,8 @@ import { Footer } from "@/components/Footer";
 import { useEffect, useState } from "react";
 
 const Index = () => {
-  const [currentUsername, setCurrentUsername] = useState("anton");
-  const usernames = ["anton", "kukuh", "siapaaja", "budi", "diana"];
+  const [currentUsername, setCurrentUsername] = useState("kukuh");
+  const usernames = ["kukuh", "anton", "damar", "reko", "domainer"];
 
   useEffect(() => {
     const interval = setInterval(() => {
