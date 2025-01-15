@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { WhatsAppShare } from "@/components/WhatsAppShare";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Copy, Share2 } from "lucide-react";
+import { Copy, Share2, Heart, Verified } from "lucide-react";
 import { toast } from "sonner";
 
 const ProfilePage = () => {
@@ -15,7 +15,7 @@ const ProfilePage = () => {
   const copyProfileLink = () => {
     const url = `${window.location.origin}/kirim.ke/${profileData?.username}`;
     navigator.clipboard.writeText(url);
-    toast.success("Link berhasil disalin!");
+    toast.success("Link berhasil disalin! 📋");
   };
 
   const shareProfile = async () => {
@@ -31,39 +31,53 @@ const ProfilePage = () => {
     }
   };
 
+  const funDescriptions = [
+    "Pembayaran jadi lebih seru! 🎉",
+    "Transfer gampang, hidup senang 💫",
+    "Bayar apa aja, kapan aja! ⚡️",
+    "Simple, aman, terpercaya 🔒",
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#F0F7FF] to-white">
       <div className="container mx-auto px-4 py-12 max-w-4xl">
         {/* Profile Header */}
         <div className="text-center mb-12 animate-fade-in">
           <div className="relative">
-            <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-r from-[#1EAEDB] to-[#0FA0CE] flex items-center justify-center shadow-lg">
-              <span className="text-3xl text-white font-black">
+            <div className="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-r from-[#1EAEDB] to-[#0FA0CE] flex items-center justify-center shadow-lg transform hover:scale-105 transition-transform duration-300">
+              <span className="text-4xl text-white font-black">
                 {profileData?.fullName?.charAt(0) || "?"}
               </span>
             </div>
             <div className="absolute -bottom-2 right-1/2 transform translate-x-1/2">
-              <Badge variant="secondary" className="text-sm px-3 py-1 shadow-sm">
-                {profileData?.type === "business" ? "Business" : "Personal"}
+              <Badge 
+                variant="secondary" 
+                className="text-sm px-3 py-1 shadow-sm animate-bounce"
+              >
+                {profileData?.type === "business" ? (
+                  <div className="flex items-center gap-1">
+                    Business <Verified className="w-4 h-4 text-[#1EAEDB]" />
+                  </div>
+                ) : "Personal"}
               </Badge>
             </div>
           </div>
 
-          <h1 className="text-4xl font-black text-[#221F26] mb-3">
+          <h1 className="text-4xl font-black text-[#221F26] mb-3 hover:text-[#1EAEDB] transition-colors">
             {profileData?.fullName}
           </h1>
 
           <div className="flex items-center justify-center gap-3 mb-4">
             <Badge 
               variant="outline" 
-              className="text-sm px-3 py-1 border-[#1EAEDB] text-[#1EAEDB]"
+              className="text-sm px-3 py-1 border-[#1EAEDB] text-[#1EAEDB] animate-pulse"
             >
               kirim.ke/{profileData?.username}
             </Badge>
             <Button 
               variant="ghost" 
               size="sm" 
-              className="h-7 text-[#1EAEDB]"
+              className="h-7 text-[#1EAEDB] hover:bg-[#1EAEDB]/10"
               onClick={copyProfileLink}
             >
               <Copy className="h-4 w-4 mr-1" />
@@ -72,7 +86,7 @@ const ProfilePage = () => {
             <Button 
               variant="ghost" 
               size="sm" 
-              className="h-7 text-[#1EAEDB]"
+              className="h-7 text-[#1EAEDB] hover:bg-[#1EAEDB]/10"
               onClick={shareProfile}
             >
               <Share2 className="h-4 w-4 mr-1" />
@@ -84,23 +98,36 @@ const ProfilePage = () => {
             {profileData?.description}
           </p>
 
-          <div className="flex justify-center gap-4 flex-wrap">
+          <div className="flex justify-center gap-4 flex-wrap mb-8">
             {profileData?.tags?.map((tag: string, index: number) => (
               <Badge 
                 key={index}
                 variant="secondary" 
-                className="bg-white/50 text-[#403E43]"
+                className="bg-white/50 text-[#403E43] hover:bg-[#1EAEDB]/10 transition-colors"
               >
                 {tag}
               </Badge>
             ))}
           </div>
+
+          <div className="flex justify-center gap-3 flex-wrap mb-8">
+            {funDescriptions.map((desc, index) => (
+              <p
+                key={index}
+                className="text-sm text-[#403E43] bg-white/70 px-4 py-2 rounded-full shadow-sm animate-fade-in"
+                style={{ animationDelay: `${index * 0.2}s` }}
+              >
+                {desc}
+              </p>
+            ))}
+          </div>
         </div>
 
         {/* Bank Accounts Section */}
-        <div className="space-y-8">
-          <h2 className="text-2xl font-bold text-[#221F26] text-center mb-8">
+        <div className="space-y-8 max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold text-[#221F26] text-center mb-8 flex items-center justify-center gap-2">
             Metode Pembayaran
+            <span className="animate-bounce">💳</span>
           </h2>
           
           <div className="grid gap-6 md:grid-cols-2">
@@ -169,22 +196,27 @@ const ProfilePage = () => {
         </div>
 
         {/* Contact & Business Hours Section */}
-        <div className="mt-12 space-y-6">
+        <div className="mt-12 space-y-6 max-w-3xl mx-auto">
           <div className="text-center">
-            <p className="text-[#403E43]">
+            <p className="text-[#403E43] mb-2">
               WhatsApp untuk konfirmasi:{" "}
               <span className="font-bold text-[#221F26]">
-                {profileData?.whatsapp}
+                {profileData?.whatsapp} 📱
               </span>
+            </p>
+            <p className="text-sm text-[#403E43]">
+              (Nomor ini berbeda dengan builder WhatsApp di atas)
             </p>
           </div>
 
           {profileData?.businessHours && (
             <Card className="p-6 bg-white/80 backdrop-blur max-w-md mx-auto">
-              <h3 className="font-bold text-[#221F26] mb-4">Jam Operasional</h3>
+              <h3 className="font-bold text-[#221F26] mb-4 flex items-center gap-2">
+                Jam Operasional <span className="animate-pulse">⏰</span>
+              </h3>
               <div className="space-y-2 text-[#403E43]">
                 {profileData.businessHours.map((hours: any, index: number) => (
-                  <div key={index} className="flex justify-between">
+                  <div key={index} className="flex justify-between hover:bg-[#1EAEDB]/5 p-2 rounded-md transition-colors">
                     <span>{hours.day}</span>
                     <span>{hours.hours}</span>
                   </div>
@@ -192,6 +224,14 @@ const ProfilePage = () => {
               </div>
             </Card>
           )}
+        </div>
+
+        {/* Footer */}
+        <div className="mt-12 text-center text-sm text-[#403E43] animate-fade-in">
+          <p className="flex items-center justify-center gap-2">
+            Made with <Heart className="w-4 h-4 text-red-500 animate-pulse" /> by Kirim.ke
+          </p>
+          <p className="mt-2">Simplifying payments, one transfer at a time ✨</p>
         </div>
       </div>
     </div>
