@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title id="t">YOURDOMAIN.COM is for sale</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 80px 24px;
+      text-align: center;
+    }
+    .domain { font-size: 36px; font-weight: 800; margin: 0 0 8px; letter-spacing: -0.02em; }
+    .tagline { color: #6b7280; margin: 0 0 32px; }
+    .price-box { border: 1px solid #e5e7eb; border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+    .price { font-size: 48px; font-weight: 800; margin: 0; }
+    .currency { font-size: 18px; color: #6b7280; }
+    .buy-btn {
+      display: inline-block;
+      background: #111827;
+      color: white;
+      padding: 16px 48px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 17px;
+      transition: opacity .15s;
+    }
+    .buy-btn:hover { opacity: 0.85; }
+    .secondary { color: #6b7280; font-size: 14px; margin-top: 24px; }
+    .secondary a { color: inherit; }
+    @media (prefers-color-scheme: dark) {
+      .price-box { border-color: #374151; }
+      .buy-btn { background: #f97316; }
+    }
+  </style>
+</head>
+<body>
+  <h1 class="domain" id="domain">YOURDOMAIN.COM</h1>
+  <p class="tagline">premium domain — instant transfer via Stripe</p>
+  <div class="price-box">
+    <p class="price"><span class="currency">$</span><span id="price">999</span></p>
+  </div>
+  <a class="buy-btn" id="buy" href="#">Buy now →</a>
+  <p class="secondary">Or <a id="contact" href="mailto:hello@kukuh.la">make an offer</a></p>
+
+  <script>
+    // === CONFIG ===
+    const CFG = {
+      domain: 'yourdomain.com',
+      price: 999,
+      stripeUrl: 'https://buy.stripe.com/your-payment-link-here',
+      contactEmail: 'hello@kukuh.la',
+    };
+
+    document.getElementById('domain').textContent = CFG.domain.toUpperCase();
+    document.getElementById('price').textContent = CFG.price;
+    document.getElementById('buy').href = CFG.stripeUrl;
+    document.getElementById('contact').href = `mailto:${CFG.contactEmail}?subject=Offer for ${CFG.domain}`;
+    document.title = `${CFG.domain.toUpperCase()} is for sale`;
+  </script>
+</body>
+</html>
