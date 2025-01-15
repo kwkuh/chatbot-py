@@ -13,21 +13,26 @@ const Index = () => {
           </p>
         </header>
 
-        <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
-          <div className="space-y-8">
+        <div className="max-w-6xl mx-auto flex flex-col items-center">
+          {/* Form Section */}
+          <div className="w-full max-w-2xl mb-20">
+            <div className="bg-gray-800/30 p-8 rounded-2xl border border-gray-700 backdrop-blur-sm animate-fade-in shadow-xl">
+              <RegistrationForm />
+            </div>
+          </div>
+
+          {/* Features and Instructions */}
+          <div className="w-full max-w-3xl space-y-16">
+            {/* Features */}
             <div className="space-y-6 animate-fade-in">
-              <h2 className="text-3xl font-bold text-white">Buat Profil Pembayaran Anda</h2>
-              <p className="text-lg text-gray-300">
-                Bagikan semua metode pembayaran dalam satu link sederhana. Tanpa perlu registrasi!
-              </p>
-              <ul className="space-y-4">
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {[
                   "Pembuatan profil instan",
                   "Bagikan berbagai metode pembayaran",
                   "Pesan langsung via WhatsApp",
                   "Link profil kustom",
                 ].map((feature, index) => (
-                  <li key={index} className="flex items-center space-x-3 text-gray-300">
+                  <li key={index} className="flex items-center space-x-3 text-gray-300 bg-gray-800/20 p-4 rounded-lg backdrop-blur-sm">
                     <span className="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-purple-500">
                       ✓
                     </span>
@@ -37,9 +42,10 @@ const Index = () => {
               </ul>
             </div>
 
-            <div className="p-6 rounded-lg border border-gray-700 bg-gray-800/50 backdrop-blur-sm animate-fade-in">
-              <h3 className="text-xl font-semibold text-white mb-4">Cara Kerja</h3>
-              <ol className="space-y-4 text-gray-300">
+            {/* How it Works */}
+            <div className="p-6 rounded-lg border border-gray-700 bg-gray-800/20 backdrop-blur-sm animate-fade-in">
+              <h3 className="text-xl font-semibold text-white mb-6">Cara Kerja</h3>
+              <ol className="space-y-6 text-gray-300">
                 <li className="flex items-start space-x-3">
                   <span className="font-bold text-blue-400">1.</span>
                   <span>Isi formulir dengan data Anda</span>
@@ -54,10 +60,6 @@ const Index = () => {
                 </li>
               </ol>
             </div>
-          </div>
-
-          <div className="bg-gray-800/30 p-8 rounded-2xl border border-gray-700 backdrop-blur-sm animate-fade-in shadow-xl">
-            <RegistrationForm />
           </div>
         </div>
       </div>
