@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
-import { Plus, Send } from "lucide-react";
+import { Plus, Send, MessageCircle } from "lucide-react";
 
 interface WhatsAppShareProps {
   accountName: string;
@@ -42,9 +42,18 @@ export const WhatsAppShare = ({ accountName, accountNumber, bankName }: WhatsApp
   };
 
   return (
-    <Card className="p-6 space-y-6">
-      <h3 className="text-xl font-bold text-[#1EAEDB]">Share via WhatsApp</h3>
+    <Card className="p-6 space-y-6 glass-effect hover:shadow-xl transition-all duration-300">
+      <div className="flex items-center gap-2 text-xl font-bold text-[#1EAEDB]">
+        <MessageCircle className="w-6 h-6" />
+        <h3>Share via WhatsApp</h3>
+      </div>
       
+      <div className="space-y-2 text-sm text-gray-600">
+        <p>✨ Kirim detail pembayaran langsung ke WhatsApp</p>
+        <p>🔒 Aman dan praktis</p>
+        <p>⚡️ Proses cepat dan mudah</p>
+      </div>
+
       <div className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="amount">Jumlah Pembayaran</Label>
@@ -73,7 +82,7 @@ export const WhatsAppShare = ({ accountName, accountNumber, bankName }: WhatsApp
             <Button
               type="button"
               onClick={() => handleShare(number)}
-              className="mt-8 bg-[#1EAEDB] hover:bg-[#0FA0CE]"
+              className="mt-8 bg-[#1EAEDB] hover:bg-[#0FA0CE] animate-pulse"
               disabled={!number || !amount}
             >
               <Send className="w-4 h-4" />
@@ -85,9 +94,10 @@ export const WhatsAppShare = ({ accountName, accountNumber, bankName }: WhatsApp
           type="button"
           variant="outline"
           onClick={handleAddNumber}
-          className="w-full border-2 border-dashed border-[#1EAEDB] hover:border-[#0FA0CE] text-[#1EAEDB] hover:text-[#0FA0CE]"
+          className="w-full border-2 border-dashed border-[#1EAEDB] hover:border-[#0FA0CE] text-[#1EAEDB] hover:text-[#0FA0CE] group"
         >
-          <Plus className="w-4 h-4 mr-2" /> Tambah Nomor WhatsApp
+          <Plus className="w-4 h-4 mr-2 group-hover:rotate-90 transition-transform" /> 
+          Tambah Nomor WhatsApp
         </Button>
       </div>
     </Card>

@@ -124,11 +124,17 @@ const ProfilePage = () => {
         </div>
 
         {/* Bank Accounts Section */}
-        <div className="space-y-8 max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold text-[#221F26] text-center mb-8 flex items-center justify-center gap-2">
-            Metode Pembayaran
-            <span className="animate-bounce">💳</span>
-          </h2>
+        <div className="space-y-8 max-w-3xl mx-auto px-4">
+          <div className="text-center space-y-4">
+            <h2 className="text-3xl font-black text-[#221F26] flex items-center justify-center gap-2 animate-fade-in">
+              Metode Pembayaran
+              <span className="animate-bounce">💳</span>
+            </h2>
+            <p className="text-gray-600 max-w-xl mx-auto">
+              Pilih metode pembayaran yang nyaman buat kamu! 
+              Pembayaran instant dan aman dengan berbagai pilihan bank 🏦
+            </p>
+          </div>
           
           <div className="grid gap-6 md:grid-cols-2">
             {profileData?.bankAccounts.map((account, index) => (
@@ -141,13 +147,13 @@ const ProfilePage = () => {
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <Badge 
-                        className="bg-[#1EAEDB] hover:bg-[#0FA0CE] text-white px-3 py-1"
+                        className="bg-[#1EAEDB] hover:bg-[#0FA0CE] text-white px-3 py-1 text-lg"
                       >
                         {account.bank}
                       </Badge>
                       {account.verified && (
                         <Badge variant="outline" className="border-green-500 text-green-500">
-                          Terverifikasi
+                          Terverifikasi ✓
                         </Badge>
                       )}
                     </div>
@@ -156,20 +162,20 @@ const ProfilePage = () => {
                       <p className="text-sm text-[#403E43] font-medium">
                         Nomor Rekening
                       </p>
-                      <div className="flex items-center gap-2">
-                        <p className="text-lg font-bold text-[#221F26] font-mono">
+                      <div className="flex items-center gap-2 bg-gray-50 p-3 rounded-lg">
+                        <p className="text-xl font-bold text-[#221F26] font-mono tracking-wider">
                           {account.accountNumber}
                         </p>
                         <Button 
                           variant="ghost" 
                           size="sm" 
-                          className="h-6 text-[#1EAEDB] opacity-0 group-hover:opacity-100 transition-opacity"
+                          className="h-8 text-[#1EAEDB] hover:bg-[#1EAEDB]/10"
                           onClick={() => {
                             navigator.clipboard.writeText(account.accountNumber);
-                            toast.success("Nomor rekening berhasil disalin!");
+                            toast.success("Nomor rekening berhasil disalin! 📋");
                           }}
                         >
-                          <Copy className="h-3 w-3" />
+                          <Copy className="h-4 w-4" />
                         </Button>
                       </div>
                     </div>
@@ -178,20 +184,23 @@ const ProfilePage = () => {
                       <p className="text-sm text-[#403E43] font-medium">
                         Atas Nama
                       </p>
-                      <p className="text-lg font-bold text-[#221F26]">
+                      <p className="text-xl font-bold text-[#221F26] bg-gray-50 p-3 rounded-lg">
                         {account.accountName}
                       </p>
                     </div>
-
-                    <WhatsAppShare
-                      accountName={account.accountName}
-                      accountNumber={account.accountNumber}
-                      bankName={account.bank}
-                    />
                   </div>
                 </Card>
               </div>
             ))}
+          </div>
+
+          {/* WhatsApp Share Section */}
+          <div className="mt-12 max-w-xl mx-auto">
+            <WhatsAppShare
+              accountName={profileData?.bankAccounts[0]?.accountName || ''}
+              accountNumber={profileData?.bankAccounts[0]?.accountNumber || ''}
+              bankName={profileData?.bankAccounts[0]?.bank || ''}
+            />
           </div>
         </div>
 
