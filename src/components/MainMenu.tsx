@@ -69,11 +69,6 @@ export const MainMenu = () => {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuLink className="bg-[#1EAEDB] text-white px-4 py-2 rounded-md hover:bg-[#0FA0CE] transition-colors" href="#">
-            Sign In
-          </NavigationMenuLink>
-        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
   );
