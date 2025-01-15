@@ -6,11 +6,13 @@ import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
+import { Card } from "@/components/ui/card";
 
 export const RegistrationForm = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({
     fullName: "",
     username: "",
@@ -29,7 +31,6 @@ export const RegistrationForm = () => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Simulate progress with rocket animation
     let currentProgress = 0;
     const interval = setInterval(() => {
       currentProgress += 2;
@@ -38,7 +39,7 @@ export const RegistrationForm = () => {
       if (currentProgress >= 100) {
         clearInterval(interval);
         console.log("Form submitted:", formData);
-        toast.success("Profil berhasil dibuat! Mengalihkan ke halaman pembayaran Anda...");
+        toast.success("Profil berhasil dibuat bestie! 🚀 Mengalihkan ke halaman pembayaran kamu...");
         navigate(`/${formData.username}`, { 
           state: { 
             profileData: formData 
@@ -61,77 +62,65 @@ export const RegistrationForm = () => {
     setFormData({ ...formData, bankAccounts: newBankAccounts });
   };
 
-  return (
-    <form onSubmit={handleSubmit} className="space-y-8 w-full max-w-3xl mx-auto bg-white p-12 rounded-xl shadow-2xl transform hover:scale-[1.01] transition-all duration-300">
-      <div className="text-center mb-12">
-        <h3 className="text-4xl font-black text-[#1EAEDB] mb-4">Buat Profil Pembayaran</h3>
-        <p className="text-[#403E43] font-bold text-xl">Bagikan semua rekening bank Anda dalam satu link ✨</p>
-      </div>
-
-      {isLoading && (
-        <div className="space-y-4 mb-8">
-          <div className="flex items-center justify-between">
-            <span className="text-2xl">🚀</span>
-            <span className="font-bold text-[#1EAEDB]">{progress}%</span>
-          </div>
-          <Progress value={progress} className="h-3" />
-        </div>
-      )}
-
-      <div className="space-y-6">
-        <div className="space-y-3">
-          <Label htmlFor="fullName" className="text-[#221F26] font-black text-xl">Nama Lengkap</Label>
+  const steps = [
+    {
+      title: "Nama Lengkap",
+      message: "Hai bestie! 👋 Boleh tau nama lengkap kamu siapa nih?",
+      input: (
+        <Input
+          placeholder="Cth: John Doe"
+          value={formData.fullName}
+          onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+          className="border-4 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-4 focus:ring-[#1EAEDB] font-bold text-lg h-14"
+        />
+      )
+    },
+    {
+      title: "Username",
+      message: "Keren banget namanya! 🌟 Nah, sekarang bikin username buat link pembayaran kamu yuk!",
+      input: (
+        <div className="space-y-2">
           <Input
-            id="fullName"
-            placeholder="John Doe"
-            value={formData.fullName}
-            onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-            required
-            className="border-4 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-4 focus:ring-[#1EAEDB] font-bold text-lg h-14"
-          />
-        </div>
-
-        <div className="space-y-3">
-          <Label htmlFor="username" className="text-[#221F26] font-black text-xl">Username untuk Link</Label>
-          <Input
-            id="username"
-            placeholder="johndoe"
+            placeholder="Cth: johndoe"
             value={formData.username}
             onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-            required
             className="border-4 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-4 focus:ring-[#1EAEDB] font-bold text-lg h-14"
           />
           <p className="text-lg text-[#403E43] font-bold">kirim.ke/{formData.username || 'username'}</p>
         </div>
-
-        <div className="space-y-3">
-          <Label htmlFor="whatsapp" className="text-[#221F26] font-black text-xl">Nomor WhatsApp</Label>
-          <Input
-            id="whatsapp"
-            placeholder="+62812345678"
-            value={formData.whatsapp}
-            onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
-            required
-            className="border-4 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-4 focus:ring-[#1EAEDB] font-bold text-lg h-14"
-          />
-        </div>
-
-        <div className="space-y-3">
-          <Label htmlFor="description" className="text-[#221F26] font-black text-xl">Deskripsi Profil</Label>
-          <Input
-            id="description"
-            placeholder="Selamat datang di halaman pembayaran saya!"
-            value={formData.description}
-            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            required
-            className="border-4 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-4 focus:ring-[#1EAEDB] font-bold text-lg h-14"
-          />
-        </div>
-
+      )
+    },
+    {
+      title: "WhatsApp",
+      message: "Username-nya aesthetic banget! 💅 Sekarang, kasih tau nomor WA kamu dong buat konfirmasi pembayaran~",
+      input: (
+        <Input
+          placeholder="Cth: +62812345678"
+          value={formData.whatsapp}
+          onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
+          className="border-4 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-4 focus:ring-[#1EAEDB] font-bold text-lg h-14"
+        />
+      )
+    },
+    {
+      title: "Deskripsi",
+      message: "Sip bestie! 🌈 Terakhir nih, tulis deskripsi singkat buat halaman pembayaran kamu~",
+      input: (
+        <Input
+          placeholder="Cth: Hai bestie! Welcome to my payment page ✨"
+          value={formData.description}
+          onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+          className="border-4 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-4 focus:ring-[#1EAEDB] font-bold text-lg h-14"
+        />
+      )
+    },
+    {
+      title: "Rekening Bank",
+      message: "Nah, sekarang bagian penting nih! 🏦 Yuk masukin detail rekening bank kamu~",
+      input: (
         <div className="space-y-6">
-          <Label className="text-[#221F26] font-black text-xl">Rekening Bank</Label>
           {formData.bankAccounts.map((account, index) => (
-            <div key={index} className="space-y-4 p-6 border-4 border-[#1EAEDB] rounded-lg bg-white">
+            <Card key={index} className="p-6 border-4 border-[#1EAEDB] bg-white space-y-4">
               <div className="space-y-3">
                 <Label className="text-[#221F26] font-black text-lg">Bank</Label>
                 <Select
@@ -155,7 +144,6 @@ export const RegistrationForm = () => {
                   placeholder="Masukkan nomor rekening"
                   value={account.accountNumber}
                   onChange={(e) => updateBankAccount(index, 'accountNumber', e.target.value)}
-                  required
                   className="border-4 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-4 focus:ring-[#1EAEDB] font-bold text-lg h-14"
                 />
               </div>
@@ -166,11 +154,10 @@ export const RegistrationForm = () => {
                   placeholder="Nama sesuai rekening"
                   value={account.accountName}
                   onChange={(e) => updateBankAccount(index, 'accountName', e.target.value)}
-                  required
                   className="border-4 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-4 focus:ring-[#1EAEDB] font-bold text-lg h-14"
                 />
               </div>
-            </div>
+            </Card>
           ))}
           
           <Button
@@ -182,15 +169,76 @@ export const RegistrationForm = () => {
             + Tambah Rekening Bank
           </Button>
         </div>
+      )
+    }
+  ];
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-8 w-full max-w-3xl mx-auto">
+      <div className="text-center mb-12">
+        <h3 className="text-4xl font-black text-[#1EAEDB] mb-4">Buat Profil Pembayaran</h3>
+        <p className="text-[#403E43] font-bold text-xl">Bagikan semua rekening bank kamu dalam satu link ✨</p>
       </div>
 
-      <Button
-        type="submit"
-        disabled={isLoading}
-        className="w-full bg-[#1EAEDB] hover:bg-[#0FA0CE] text-white font-black text-2xl py-8 rounded-lg transition-all duration-200 hover:scale-[1.02] shadow-xl disabled:opacity-50"
-      >
-        {isLoading ? "Membuat Halaman... 🚀" : "Buat Halaman Pembayaran Saya ✨"}
-      </Button>
+      {isLoading ? (
+        <div className="space-y-4 mb-8">
+          <div className="flex items-center justify-between">
+            <span className="text-2xl">🚀</span>
+            <span className="font-bold text-[#1EAEDB]">{progress}%</span>
+          </div>
+          <Progress value={progress} className="h-3" />
+        </div>
+      ) : (
+        <div className="space-y-8">
+          <div className="flex flex-col space-y-6">
+            {steps.slice(0, currentStep + 1).map((step, index) => (
+              <Card key={index} className={`p-6 glass-effect transform transition-all duration-300 ${index === currentStep ? 'scale-100 opacity-100' : 'scale-95 opacity-80'}`}>
+                <div className="space-y-4">
+                  <div className="flex items-start space-x-4">
+                    <div className="w-10 h-10 rounded-full tech-gradient flex items-center justify-center flex-shrink-0">
+                      <span className="text-white font-bold">{index + 1}</span>
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="text-xl font-black text-[#1EAEDB] mb-2">{step.title}</h4>
+                      <p className="text-[#403E43] font-bold mb-4">{step.message}</p>
+                      {step.input}
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+
+          <div className="flex justify-between">
+            {currentStep > 0 && (
+              <Button
+                type="button"
+                onClick={() => setCurrentStep(prev => prev - 1)}
+                variant="outline"
+                className="border-4 border-[#1EAEDB] text-[#1EAEDB] hover:bg-[#1EAEDB]/10 font-black text-lg px-8 py-6"
+              >
+                ← Kembali
+              </Button>
+            )}
+            {currentStep < steps.length - 1 ? (
+              <Button
+                type="button"
+                onClick={() => setCurrentStep(prev => prev + 1)}
+                className="ml-auto bg-[#1EAEDB] hover:bg-[#0FA0CE] text-white font-black text-lg px-8 py-6"
+              >
+                Lanjut →
+              </Button>
+            ) : (
+              <Button
+                type="submit"
+                className="ml-auto bg-[#1EAEDB] hover:bg-[#0FA0CE] text-white font-black text-lg px-8 py-6"
+              >
+                Buat Halaman Payment ✨
+              </Button>
+            )}
+          </div>
+        </div>
+      )}
     </form>
   );
 };
