@@ -36,12 +36,23 @@ const ProfilePage = () => {
   }
 
   const copyToClipboard = (text: string, message: string) => {
-    navigator.clipboard.writeText(text);
-    toast.success(message);
+    navigator.clipboard.writeText(text).then(() => {
+      toast.success(message);
+    }).catch(() => {
+      toast.error("Gagal menyalin teks. Coba lagi ya!");
+    });
   };
 
-  const openWhatsApp = () => {
-    const message = `Hai kak ${profileData.fullName}! 👋\n\nAku mau bayar nih bestie~ 💖\n\nKirim via: [bank]\nNominal: [jumlah]\n\nMohon konfirmasinya ya kak! ✨`;
+  const openWhatsApp = (account: BankAccount) => {
+    const message = `Hai kak ${profileData.fullName}! 👋\n\n` +
+      `Aku mau konfirmasi nih untuk pembayaran ke:\n\n` +
+      `Bank: ${account.bank}\n` +
+      `No. Rekening: ${account.accountNumber}\n` +
+      `Atas Nama: ${account.accountName}\n\n` +
+      `Mohon konfirmasi ya kak kalau data rekening di atas sudah benar ✨\n` +
+      `Nanti aku akan kirim bukti transfer setelah melakukan pembayaran 💖\n\n` +
+      `Link pembayaran: ${window.location.href}`;
+    
     const encodedMessage = encodeURIComponent(message);
     window.open(`https://wa.me/${profileData.whatsapp.replace(/\+/g, '')}?text=${encodedMessage}`, '_blank');
   };
@@ -75,26 +86,19 @@ const ProfilePage = () => {
 
         <div className="flex justify-center gap-4 animate-fade-in">
           <Button
-            onClick={() => copyToClipboard(window.location.href, "Link profile berhasil dicopy bestie! ✨")}
+            onClick={() => copyToClipboard(window.location.href, "Link profile berhasil dicopy! ✨")}
             variant="outline"
             className="glass-effect border-[#1EAEDB] text-[#1EAEDB] hover:bg-[#1EAEDB]/10 transition-all duration-300 font-bold text-lg py-6 px-8"
           >
             <Share2 className="w-5 h-5 mr-2" />
             Share Link
           </Button>
-          <Button
-            onClick={openWhatsApp}
-            className="tech-gradient hover:opacity-90 text-white transition-all duration-300 font-bold text-lg py-6 px-8"
-          >
-            <Send className="w-5 h-5 mr-2" />
-            Gas Chat WA!
-          </Button>
         </div>
 
         <div className="space-y-6 animate-fade-in">
           <h2 className="text-3xl font-black text-center mb-8">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#1EAEDB] to-[#0FA0CE]">
-              Payment Methods Bestie! ✨
+              Payment Methods ✨
             </span>
           </h2>
           {profileData.bankAccounts.map((account, index) => (
@@ -104,14 +108,23 @@ const ProfilePage = () => {
                   <span className="text-2xl font-black text-white tech-gradient px-6 py-2 rounded-full">
                     {account.bank} 🏦
                   </span>
-                  <Button
-                    variant="outline"
-                    onClick={() => copyToClipboard(account.accountNumber, "Nomor rekening berhasil dicopy bestie! 🎉")}
-                    className="glass-effect border-[#1EAEDB] text-[#1EAEDB] hover:bg-[#1EAEDB]/10 font-bold text-lg px-6 py-6"
-                  >
-                    <Copy className="w-5 h-5 mr-2" />
-                    Copy Rekening
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      onClick={() => copyToClipboard(account.accountNumber, "Nomor rekening berhasil dicopy! 🎉")}
+                      className="glass-effect border-[#1EAEDB] text-[#1EAEDB] hover:bg-[#1EAEDB]/10 font-bold text-lg px-6 py-6"
+                    >
+                      <Copy className="w-5 h-5 mr-2" />
+                      Copy Rekening
+                    </Button>
+                    <Button
+                      onClick={() => openWhatsApp(account)}
+                      className="tech-gradient hover:opacity-90 text-white transition-all duration-300 font-bold text-lg px-6 py-6"
+                    >
+                      <Send className="w-5 h-5 mr-2" />
+                      Konfirmasi WA
+                    </Button>
+                  </div>
                 </div>
                 <div className="space-y-4">
                   <p className="text-gray-600 font-bold text-lg">

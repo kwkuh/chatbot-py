@@ -39,7 +39,7 @@ export const RegistrationForm = () => {
       if (currentProgress >= 100) {
         clearInterval(interval);
         console.log("Form submitted:", formData);
-        toast.success("Profil berhasil dibuat bestie! 🚀 Mengalihkan ke halaman pembayaran kamu...");
+        toast.success("Profile berhasil dibuat! 🚀 Mengalihkan ke halaman pembayaran kamu...");
         navigate(`/${formData.username}`, { 
           state: { 
             profileData: formData 
@@ -65,7 +65,7 @@ export const RegistrationForm = () => {
   const steps = [
     {
       title: "Nama Lengkap",
-      message: "Hai bestie! 👋 Boleh tau nama lengkap kamu siapa nih?",
+      message: "Hai! 👋 Boleh tau nama lengkap kamu siapa nih?",
       input: (
         <Input
           placeholder="Cth: John Doe"
@@ -92,7 +92,7 @@ export const RegistrationForm = () => {
     },
     {
       title: "WhatsApp",
-      message: "Username-nya aesthetic banget! 💅 Sekarang, kasih tau nomor WA kamu dong buat konfirmasi pembayaran~",
+      message: "Username-nya keren sih! 💅 Sekarang, kasih tau nomor WA kamu dong buat konfirmasi pembayaran~",
       input: (
         <Input
           placeholder="Cth: +62812345678"
@@ -104,10 +104,10 @@ export const RegistrationForm = () => {
     },
     {
       title: "Deskripsi",
-      message: "Sip bestie! 🌈 Terakhir nih, tulis deskripsi singkat buat halaman pembayaran kamu~",
+      message: "Sip! 🌈 Terakhir nih, tulis deskripsi singkat buat halaman pembayaran kamu~",
       input: (
         <Input
-          placeholder="Cth: Hai bestie! Welcome to my payment page ✨"
+          placeholder="Cth: Hai! Welcome to my payment page ✨"
           value={formData.description}
           onChange={(e) => setFormData({ ...formData, description: e.target.value })}
           className="border-4 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-4 focus:ring-[#1EAEDB] font-bold text-lg h-14"
