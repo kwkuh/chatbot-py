@@ -13,6 +13,7 @@ export const RegistrationForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
+  const [isTyping, setIsTyping] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
     username: "",
@@ -30,23 +31,27 @@ export const RegistrationForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setIsTyping(true);
     
-    let currentProgress = 0;
-    const interval = setInterval(() => {
-      currentProgress += 2;
-      setProgress(currentProgress);
-      
-      if (currentProgress >= 100) {
-        clearInterval(interval);
-        console.log("Form submitted:", formData);
-        toast.success("Profile berhasil dibuat! 🚀 Mengalihkan ke halaman pembayaran kamu...");
-        navigate(`/${formData.username}`, { 
-          state: { 
-            profileData: formData 
-          } 
-        });
-      }
-    }, 50);
+    setTimeout(() => {
+      setIsTyping(false);
+      let currentProgress = 0;
+      const interval = setInterval(() => {
+        currentProgress += 2;
+        setProgress(currentProgress);
+        
+        if (currentProgress >= 100) {
+          clearInterval(interval);
+          console.log("Form submitted:", formData);
+          toast.success("Profile berhasil dibuat! 🚀 Mengalihkan ke halaman pembayaran kamu...");
+          navigate(`/${formData.username}`, { 
+            state: { 
+              profileData: formData 
+            } 
+          });
+        }
+      }, 50);
+    }, 1500);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent, nextStep: boolean = true) => {
@@ -54,6 +59,8 @@ export const RegistrationForm = () => {
       e.preventDefault();
       if (nextStep) {
         setCurrentStep(prev => prev + 1);
+        setIsTyping(true);
+        setTimeout(() => setIsTyping(false), 1000);
       }
     }
   };
@@ -77,11 +84,11 @@ export const RegistrationForm = () => {
       message: "Hai! 👋 Siapa nama lengkap kamu?",
       input: (
         <Input
-          placeholder="Cth: John Doe"
+          placeholder="Cth: Kukuh"
           value={formData.fullName}
           onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
           onKeyPress={(e) => handleKeyPress(e)}
-          className="border-2 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-2 focus:ring-[#1EAEDB] font-medium text-lg h-12 max-w-md"
+          className="bg-transparent border-none shadow-none text-[#221F26] placeholder:text-gray-400 focus:ring-0 font-medium text-lg"
         />
       )
     },
@@ -91,13 +98,13 @@ export const RegistrationForm = () => {
       input: (
         <div className="space-y-2">
           <Input
-            placeholder="Cth: johndoe"
+            placeholder="Cth: kukuh"
             value={formData.username}
             onChange={(e) => setFormData({ ...formData, username: e.target.value })}
             onKeyPress={(e) => handleKeyPress(e)}
-            className="border-2 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-2 focus:ring-[#1EAEDB] font-medium text-lg h-12 max-w-md"
+            className="bg-transparent border-none shadow-none text-[#221F26] placeholder:text-gray-400 focus:ring-0 font-medium text-lg"
           />
-          <p className="text-lg text-[#403E43] font-medium">kirim.ke/{formData.username || 'username'}</p>
+          <p className="text-lg text-[#403E43] font-medium">kirim.ke/{formData.username || 'kukuh'}</p>
         </div>
       )
     },
@@ -215,6 +222,13 @@ export const RegistrationForm = () => {
                   <div className="flex-1">
                     <div className="bg-[#F0F7FF] rounded-2xl p-4 inline-block max-w-[80%]">
                       <p className="text-[#403E43] font-medium">{step.message}</p>
+                      {isTyping && index === currentStep && (
+                        <div className="flex space-x-2 mt-2">
+                          <div className="w-2 h-2 bg-[#1EAEDB] rounded-full animate-bounce"></div>
+                          <div className="w-2 h-2 bg-[#1EAEDB] rounded-full animate-bounce delay-100"></div>
+                          <div className="w-2 h-2 bg-[#1EAEDB] rounded-full animate-bounce delay-200"></div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -222,7 +236,7 @@ export const RegistrationForm = () => {
                 {(formData[step.title.toLowerCase().replace(' ', '') as keyof typeof formData] || index === currentStep) && (
                   <div className="flex items-start space-x-4 justify-end">
                     <div className="flex-1 flex justify-end">
-                      <div className="bg-white border-2 border-[#1EAEDB] rounded-2xl p-4 inline-block max-w-[80%]">
+                      <div className="bg-white rounded-2xl p-4 inline-block max-w-[80%] shadow-sm">
                         {step.input}
                       </div>
                     </div>
@@ -249,7 +263,11 @@ export const RegistrationForm = () => {
             {currentStep < steps.length - 1 ? (
               <Button
                 type="button"
-                onClick={() => setCurrentStep(prev => prev + 1)}
+                onClick={() => {
+                  setCurrentStep(prev => prev + 1);
+                  setIsTyping(true);
+                  setTimeout(() => setIsTyping(false), 1000);
+                }}
                 className="ml-auto bg-[#1EAEDB] hover:bg-[#0FA0CE] text-white font-bold text-lg px-6 h-12"
               >
                 Lanjut →
