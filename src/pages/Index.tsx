@@ -2,23 +2,18 @@ import { RegistrationForm } from "@/components/RegistrationForm";
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#1a1c1e] to-[#2a2d31]">
-      <header className="py-20 px-4 text-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&q=80')] opacity-10 bg-cover bg-center" />
-        <div className="relative z-10 container max-w-6xl mx-auto">
-          <div className="animate-fade-in">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">
-              Kirim.ke
-            </h1>
-            <p className="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto">
-              Halaman Pembayaran Web3 Anda - Bagikan Semua Metode Pembayaran dengan Satu Link
-            </p>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-gradient-to-br from-[#1a1c1e] to-[#2a2d31]">
+      <div className="container mx-auto px-4 py-12">
+        <header className="text-center mb-16 animate-fade-in">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">
+            Kirim.ke
+          </h1>
+          <p className="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto">
+            Bagikan Semua Metode Pembayaran dengan Satu Link
+          </p>
+        </header>
 
-      <main className="flex-1 container max-w-6xl mx-auto px-4 py-12">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
           <div className="space-y-8">
             <div className="space-y-6 animate-fade-in">
               <h2 className="text-3xl font-bold text-white">Buat Profil Pembayaran Anda</h2>
@@ -65,13 +60,7 @@ const Index = () => {
             <RegistrationForm />
           </div>
         </div>
-      </main>
-
-      <footer className="py-8 px-4 border-t border-gray-800">
-        <div className="container max-w-6xl mx-auto text-center text-gray-400">
-          <p>© 2024 Kirim.ke. Hak Cipta Dilindungi.</p>
-        </div>
-      </footer>
+      </div>
     </div>
   );
 };
