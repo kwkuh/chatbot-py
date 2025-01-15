@@ -49,6 +49,15 @@ export const RegistrationForm = () => {
     }, 50);
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent, nextStep: boolean = true) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (nextStep) {
+        setCurrentStep(prev => prev + 1);
+      }
+    }
+  };
+
   const addBankAccount = () => {
     setFormData({
       ...formData,
@@ -65,25 +74,27 @@ export const RegistrationForm = () => {
   const steps = [
     {
       title: "Nama Lengkap",
-      message: "Hai! 👋 Boleh tau nama lengkap kamu siapa nih?",
+      message: "Hai! 👋 Siapa nama lengkap kamu?",
       input: (
         <Input
           placeholder="Cth: John Doe"
           value={formData.fullName}
           onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+          onKeyPress={(e) => handleKeyPress(e)}
           className="border-4 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-4 focus:ring-[#1EAEDB] font-bold text-lg h-14"
         />
       )
     },
     {
       title: "Username",
-      message: "Keren banget namanya! 🌟 Nah, sekarang bikin username buat link pembayaran kamu yuk!",
+      message: "Nama yang keren! 🌟 Yuk bikin username buat link pembayaran kamu~",
       input: (
         <div className="space-y-2">
           <Input
             placeholder="Cth: johndoe"
             value={formData.username}
             onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+            onKeyPress={(e) => handleKeyPress(e)}
             className="border-4 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-4 focus:ring-[#1EAEDB] font-bold text-lg h-14"
           />
           <p className="text-lg text-[#403E43] font-bold">kirim.ke/{formData.username || 'username'}</p>
@@ -92,24 +103,26 @@ export const RegistrationForm = () => {
     },
     {
       title: "WhatsApp",
-      message: "Username-nya keren sih! 💅 Sekarang, kasih tau nomor WA kamu dong buat konfirmasi pembayaran~",
+      message: "Username yang keren! 💅 Kasih tau nomor WA kamu dong buat konfirmasi pembayaran~",
       input: (
         <Input
           placeholder="Cth: +62812345678"
           value={formData.whatsapp}
           onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
+          onKeyPress={(e) => handleKeyPress(e)}
           className="border-4 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-4 focus:ring-[#1EAEDB] font-bold text-lg h-14"
         />
       )
     },
     {
       title: "Deskripsi",
-      message: "Sip! 🌈 Terakhir nih, tulis deskripsi singkat buat halaman pembayaran kamu~",
+      message: "Sip! 🌈 Tulis deskripsi singkat buat halaman pembayaran kamu~",
       input: (
         <Input
           placeholder="Cth: Hai! Welcome to my payment page ✨"
           value={formData.description}
           onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+          onKeyPress={(e) => handleKeyPress(e)}
           className="border-4 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-4 focus:ring-[#1EAEDB] font-bold text-lg h-14"
         />
       )
@@ -144,6 +157,7 @@ export const RegistrationForm = () => {
                   placeholder="Masukkan nomor rekening"
                   value={account.accountNumber}
                   onChange={(e) => updateBankAccount(index, 'accountNumber', e.target.value)}
+                  onKeyPress={(e) => handleKeyPress(e, false)}
                   className="border-4 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-4 focus:ring-[#1EAEDB] font-bold text-lg h-14"
                 />
               </div>
@@ -154,6 +168,7 @@ export const RegistrationForm = () => {
                   placeholder="Nama sesuai rekening"
                   value={account.accountName}
                   onChange={(e) => updateBankAccount(index, 'accountName', e.target.value)}
+                  onKeyPress={(e) => handleKeyPress(e, false)}
                   className="border-4 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-4 focus:ring-[#1EAEDB] font-bold text-lg h-14"
                 />
               </div>

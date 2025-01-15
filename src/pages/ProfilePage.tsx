@@ -45,12 +45,12 @@ const ProfilePage = () => {
 
   const openWhatsApp = (account: BankAccount) => {
     const message = `Hai kak ${profileData.fullName}! 👋\n\n` +
-      `Aku mau konfirmasi nih untuk pembayaran ke:\n\n` +
+      `Saya mau konfirmasi untuk pembayaran ke rekening:\n\n` +
       `Bank: ${account.bank}\n` +
       `No. Rekening: ${account.accountNumber}\n` +
       `Atas Nama: ${account.accountName}\n\n` +
-      `Mohon konfirmasi ya kak kalau data rekening di atas sudah benar ✨\n` +
-      `Nanti aku akan kirim bukti transfer setelah melakukan pembayaran 💖\n\n` +
+      `Mohon konfirmasi apakah data rekening di atas sudah benar ya kak ✨\n` +
+      `Saya akan segera kirim bukti transfer setelah melakukan pembayaran 💖\n\n` +
       `Link pembayaran: ${window.location.href}`;
     
     const encodedMessage = encodeURIComponent(message);
