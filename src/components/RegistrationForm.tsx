@@ -15,19 +15,19 @@ export const RegistrationForm = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
-    toast.success("Profile created successfully! Redirecting to your payment page...");
+    toast.success("Profil berhasil dibuat! Mengalihkan ke halaman pembayaran Anda...");
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 w-full max-w-md mx-auto">
       <div className="text-center mb-8">
-        <h3 className="text-2xl font-bold text-white mb-2">Create Your Profile</h3>
-        <p className="text-gray-400">Get your payment profile in seconds</p>
+        <h3 className="text-2xl font-bold text-white mb-2">Buat Profil Anda</h3>
+        <p className="text-gray-400">Dapatkan profil pembayaran dalam hitungan detik</p>
       </div>
 
       <div className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="fullName" className="text-gray-300">Full Name</Label>
+          <Label htmlFor="fullName" className="text-gray-300">Nama Lengkap</Label>
           <Input
             id="fullName"
             placeholder="John Doe"
@@ -51,7 +51,7 @@ export const RegistrationForm = () => {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="whatsapp" className="text-gray-300">WhatsApp Number</Label>
+          <Label htmlFor="whatsapp" className="text-gray-300">Nomor WhatsApp</Label>
           <Input
             id="whatsapp"
             placeholder="+62812345678"
@@ -63,10 +63,10 @@ export const RegistrationForm = () => {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="description" className="text-gray-300">Description</Label>
+          <Label htmlFor="description" className="text-gray-300">Deskripsi</Label>
           <Input
             id="description"
-            placeholder="Welcome to my payment page!"
+            placeholder="Selamat datang di halaman pembayaran saya!"
             value={formData.description}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
             required
@@ -79,7 +79,7 @@ export const RegistrationForm = () => {
         type="submit"
         className="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 hover:scale-[1.02]"
       >
-        Create My Payment Page
+        Buat Halaman Pembayaran Saya
       </Button>
     </form>
   );
