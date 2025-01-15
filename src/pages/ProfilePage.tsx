@@ -41,7 +41,9 @@ const ProfilePage = () => {
   };
 
   const openWhatsApp = () => {
-    window.open(`https://wa.me/${profileData.whatsapp.replace(/\+/g, '')}`, '_blank');
+    const message = `Hai kak ${profileData.fullName}! 👋\n\nAku mau bayar nih bestie~ 💖\n\nKirim via: [bank]\nNominal: [jumlah]\n\nMohon konfirmasinya ya kak! ✨`;
+    const encodedMessage = encodeURIComponent(message);
+    window.open(`https://wa.me/${profileData.whatsapp.replace(/\+/g, '')}?text=${encodedMessage}`, '_blank');
   };
 
   return (
@@ -57,17 +59,17 @@ const ProfilePage = () => {
 
       <div className="max-w-2xl mx-auto space-y-8 relative z-10">
         <div className="text-center animate-fade-in">
-          <div className="w-24 h-24 mx-auto mb-6 rounded-full tech-gradient flex items-center justify-center">
-            <span className="text-4xl font-black text-white">
+          <div className="w-32 h-32 mx-auto mb-6 rounded-full tech-gradient flex items-center justify-center transform hover:scale-110 transition-all duration-300">
+            <span className="text-6xl font-black text-white">
               {profileData.fullName.charAt(0)}
             </span>
           </div>
-          <h1 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#1EAEDB] to-[#0FA0CE] mb-2">
+          <h1 className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#1EAEDB] to-[#0FA0CE] mb-4 hover:scale-105 transition-transform">
             {profileData.fullName}
           </h1>
-          <p className="text-lg text-gray-600 mb-4 font-medium">{profileData.description}</p>
-          <div className="inline-block p-1 glass-effect rounded-full">
-            <p className="text-sm text-gray-600 px-4 py-1 font-medium">@{username}</p>
+          <p className="text-xl text-gray-600 mb-6 font-bold">{profileData.description}</p>
+          <div className="inline-block p-2 glass-effect rounded-full transform hover:scale-105 transition-all">
+            <p className="text-lg text-gray-600 px-6 py-2 font-bold">✨ @{username} ✨</p>
           </div>
         </div>
 
@@ -75,54 +77,59 @@ const ProfilePage = () => {
           <Button
             onClick={() => copyToClipboard(window.location.href, "Link profile berhasil dicopy bestie! ✨")}
             variant="outline"
-            className="glass-effect border-[#1EAEDB] text-[#1EAEDB] hover:bg-[#1EAEDB]/10 transition-all duration-300 font-bold"
+            className="glass-effect border-[#1EAEDB] text-[#1EAEDB] hover:bg-[#1EAEDB]/10 transition-all duration-300 font-bold text-lg py-6 px-8"
           >
-            <Share2 className="w-4 h-4 mr-2" />
+            <Share2 className="w-5 h-5 mr-2" />
             Share Link
           </Button>
           <Button
             onClick={openWhatsApp}
-            className="tech-gradient hover:opacity-90 text-white transition-all duration-300 font-bold"
+            className="tech-gradient hover:opacity-90 text-white transition-all duration-300 font-bold text-lg py-6 px-8"
           >
-            <Send className="w-4 h-4 mr-2" />
-            Chat WA
+            <Send className="w-5 h-5 mr-2" />
+            Gas Chat WA!
           </Button>
         </div>
 
-        <div className="space-y-4 animate-fade-in">
-          <h2 className="text-2xl font-black text-center mb-6">
+        <div className="space-y-6 animate-fade-in">
+          <h2 className="text-3xl font-black text-center mb-8">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#1EAEDB] to-[#0FA0CE]">
-              Payment Methods ✨
+              Payment Methods Bestie! ✨
             </span>
           </h2>
           {profileData.bankAccounts.map((account, index) => (
-            <Card key={index} className="glass-effect overflow-hidden transform hover:scale-[1.02] transition-all duration-300">
-              <CardContent className="p-6">
-                <div className="flex justify-between items-center mb-4">
-                  <span className="text-xl font-black text-white tech-gradient px-4 py-1 rounded-full">
-                    {account.bank}
+            <Card key={index} className="glass-effect overflow-hidden transform hover:scale-[1.02] transition-all duration-300 border-4 border-[#1EAEDB]">
+              <CardContent className="p-8">
+                <div className="flex justify-between items-center mb-6">
+                  <span className="text-2xl font-black text-white tech-gradient px-6 py-2 rounded-full">
+                    {account.bank} 🏦
                   </span>
                   <Button
                     variant="outline"
-                    size="sm"
                     onClick={() => copyToClipboard(account.accountNumber, "Nomor rekening berhasil dicopy bestie! 🎉")}
-                    className="glass-effect border-[#1EAEDB] text-[#1EAEDB] hover:bg-[#1EAEDB]/10 font-bold"
+                    className="glass-effect border-[#1EAEDB] text-[#1EAEDB] hover:bg-[#1EAEDB]/10 font-bold text-lg px-6 py-6"
                   >
-                    <Copy className="w-4 h-4 mr-2" />
-                    Copy
+                    <Copy className="w-5 h-5 mr-2" />
+                    Copy Rekening
                   </Button>
                 </div>
-                <div className="space-y-2">
-                  <p className="text-gray-600 font-medium">
-                    Nomor Rekening: <span className="text-gray-800 font-bold">{account.accountNumber}</span>
+                <div className="space-y-4">
+                  <p className="text-gray-600 font-bold text-lg">
+                    Nomor Rekening: <span className="text-[#1EAEDB] font-black text-xl">{account.accountNumber}</span>
                   </p>
-                  <p className="text-gray-600 font-medium">
-                    Atas Nama: <span className="text-gray-800 font-bold">{account.accountName}</span>
+                  <p className="text-gray-600 font-bold text-lg">
+                    Atas Nama: <span className="text-[#1EAEDB] font-black text-xl">{account.accountName}</span>
                   </p>
                 </div>
               </CardContent>
             </Card>
           ))}
+        </div>
+
+        <div className="text-center mt-12 animate-fade-in">
+          <p className="text-lg text-gray-600 font-bold">
+            Made with 💖 by <span className="text-[#1EAEDB] font-black">kirim.ke</span>
+          </p>
         </div>
       </div>
     </div>
