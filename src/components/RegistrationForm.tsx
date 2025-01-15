@@ -118,7 +118,7 @@ export const RegistrationForm = () => {
       message: "Hai! 🎯 Siapa nama lengkap kamu?",
       input: (
         <Input
-          placeholder="Cth: Kukuh"
+          placeholder="Nama lengkap kamu"
           value={formData.fullName}
           onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
           onKeyPress={(e) => handleKeyPress(e)}

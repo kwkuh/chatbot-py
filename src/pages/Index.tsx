@@ -1,4 +1,6 @@
 import { RegistrationForm } from "@/components/RegistrationForm";
+import { MainMenu } from "@/components/MainMenu";
+import { Footer } from "@/components/Footer";
 import { useEffect, useState } from "react";
 
 const Index = () => {
@@ -28,6 +30,8 @@ const Index = () => {
       </div>
 
       <div className="container mx-auto px-4 py-12 relative z-10">
+        <MainMenu />
+        
         <header className="text-center mb-16 animate-fade-in">
           <h1 className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-[#1EAEDB] to-[#0FA0CE] text-transparent bg-clip-text">
             Kirim.ke
@@ -92,6 +96,7 @@ const Index = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
