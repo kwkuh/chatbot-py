@@ -14,6 +14,7 @@ export const RegistrationForm = () => {
   const [progress, setProgress] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
   const [isTyping, setIsTyping] = useState(false);
+  const [usernameError, setUsernameError] = useState("");
   const [formData, setFormData] = useState({
     fullName: "",
     username: "",
@@ -27,6 +28,34 @@ export const RegistrationForm = () => {
       }
     ]
   });
+
+  const checkUsername = async (username: string) => {
+    // Simulate API call to check username availability
+    const takenUsernames = ["kukuh", "admin", "test", "demo"];
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(!takenUsernames.includes(username.toLowerCase()));
+      }, 500);
+    });
+  };
+
+  const handleUsernameChange = async (value: string) => {
+    setFormData({ ...formData, username: value });
+    
+    if (value.length < 5) {
+      setUsernameError("Username minimal 5 karakter. Untuk username premium hubungi team@kirim.ke 💎");
+      return;
+    }
+
+    setUsernameError("Mengecek ketersediaan username... 🔍");
+    const isAvailable = await checkUsername(value);
+    
+    if (!isAvailable) {
+      setUsernameError("Username sudah digunakan 😔");
+    } else {
+      setUsernameError("Username tersedia! 🎯");
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,7 +72,7 @@ export const RegistrationForm = () => {
         if (currentProgress >= 100) {
           clearInterval(interval);
           console.log("Form submitted:", formData);
-          toast.success("Profile berhasil dibuat! 🚀 Mengalihkan ke halaman pembayaran kamu...");
+          toast.success("Profile berhasil dibuat! 🎯 Mengalihkan ke halaman pembayaran kamu...");
           navigate(`/${formData.username}`, { 
             state: { 
               profileData: formData 
@@ -81,7 +110,7 @@ export const RegistrationForm = () => {
   const steps = [
     {
       title: "Nama Lengkap",
-      message: "Hai! 👋 Siapa nama lengkap kamu?",
+      message: "Hai! 🎯 Siapa nama lengkap kamu?",
       input: (
         <Input
           placeholder="Cth: Kukuh"
@@ -94,23 +123,32 @@ export const RegistrationForm = () => {
     },
     {
       title: "Username",
-      message: "Nama yang keren! 🌟 Yuk bikin username buat link pembayaran kamu~",
+      message: "Nama yang keren! 🎯 Yuk bikin username buat link pembayaran kamu~",
       input: (
         <div className="space-y-2">
           <Input
             placeholder="Cth: kukuh"
             value={formData.username}
-            onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+            onChange={(e) => handleUsernameChange(e.target.value)}
             onKeyPress={(e) => handleKeyPress(e)}
             className="bg-transparent border-none shadow-none text-[#221F26] placeholder:text-gray-400 focus:ring-0 font-medium text-lg"
           />
-          <p className="text-lg text-[#403E43] font-medium">kirim.ke/{formData.username || 'kukuh'}</p>
+          <div className="flex items-center space-x-2">
+            <p className="text-lg text-[#403E43] font-bold">kirim.ke/{formData.username || 'kukuh'}</p>
+            {usernameError && (
+              <span className={`text-sm ${
+                usernameError.includes("tersedia") ? "text-green-600" : "text-red-500"
+              }`}>
+                {usernameError}
+              </span>
+            )}
+          </div>
         </div>
       )
     },
     {
       title: "WhatsApp",
-      message: "Username yang keren! 💅 Kasih tau nomor WA kamu dong buat konfirmasi pembayaran~",
+      message: "Username yang keren! 🎯 Kasih tau nomor WA kamu dong buat konfirmasi pembayaran~",
       input: (
         <Input
           placeholder="Cth: +62812345678"
@@ -123,10 +161,10 @@ export const RegistrationForm = () => {
     },
     {
       title: "Deskripsi",
-      message: "Sip! 🌈 Tulis deskripsi singkat buat halaman pembayaran kamu~",
+      message: "Sip! 🎯 Tulis deskripsi singkat buat halaman pembayaran kamu~",
       input: (
         <Input
-          placeholder="Cth: Hai! Welcome to my payment page ✨"
+          placeholder="Cth: Hai! Welcome to my payment page 🎯"
           value={formData.description}
           onChange={(e) => setFormData({ ...formData, description: e.target.value })}
           onKeyPress={(e) => handleKeyPress(e)}
@@ -198,8 +236,12 @@ export const RegistrationForm = () => {
   return (
     <form onSubmit={handleSubmit} className="space-y-8 w-full max-w-3xl mx-auto">
       <div className="text-center mb-12">
-        <h3 className="text-4xl font-black text-[#1EAEDB] mb-4">Buat Profil Pembayaran</h3>
-        <p className="text-[#403E43] font-bold text-xl">Bagikan semua rekening bank kamu dalam satu link ✨</p>
+        <h3 className="text-4xl font-black text-[#1EAEDB] mb-4 [text-shadow:_2px_2px_0_rgb(0_0_0_/_20%)]">
+          Buat Profil Pembayaran
+        </h3>
+        <p className="text-[#403E43] font-bold text-xl">
+          Bagikan semua rekening bank kamu dalam satu link 🎯
+        </p>
       </div>
 
       {isLoading ? (
