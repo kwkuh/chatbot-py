@@ -1,6 +1,21 @@
 import { RegistrationForm } from "@/components/RegistrationForm";
+import { useEffect, useState } from "react";
 
 const Index = () => {
+  const [currentUsername, setCurrentUsername] = useState("anton");
+  const usernames = ["anton", "kukuh", "siapaaja", "budi", "diana"];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentUsername((current) => {
+        const currentIndex = usernames.indexOf(current);
+        return usernames[(currentIndex + 1) % usernames.length];
+      });
+    }, 2000); // Change username every 2 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#1a1c1e] to-[#2a2d31]">
       <div className="container mx-auto px-4 py-12">
@@ -8,9 +23,12 @@ const Index = () => {
           <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">
             Kirim.ke
           </h1>
-          <p className="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto">
-            Bagikan Semua Metode Pembayaran dengan Satu Link
-          </p>
+          <div className="flex items-center justify-center space-x-1 text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto">
+            <span>kirim.ke/</span>
+            <span className="text-blue-400 font-semibold animate-fade-in" key={currentUsername}>
+              {currentUsername}
+            </span>
+          </div>
         </header>
 
         <div className="max-w-6xl mx-auto flex flex-col items-center">
