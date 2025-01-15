@@ -87,6 +87,11 @@ export const RegistrationForm = () => {
     if (e.key === 'Enter') {
       e.preventDefault();
       if (nextStep) {
+        // Only proceed if username is valid when on username step
+        if (currentStep === 1 && (formData.username.length < 5 || usernameError.includes("digunakan"))) {
+          toast.error("Username tidak valid atau sudah digunakan!");
+          return;
+        }
         setCurrentStep(prev => prev + 1);
         setIsTyping(true);
         setTimeout(() => setIsTyping(false), 1000);
@@ -306,6 +311,11 @@ export const RegistrationForm = () => {
               <Button
                 type="button"
                 onClick={() => {
+                  // Check username validity before proceeding
+                  if (currentStep === 1 && (formData.username.length < 5 || usernameError.includes("digunakan"))) {
+                    toast.error("Username tidak valid atau sudah digunakan!");
+                    return;
+                  }
                   setCurrentStep(prev => prev + 1);
                   setIsTyping(true);
                   setTimeout(() => setIsTyping(false), 1000);
