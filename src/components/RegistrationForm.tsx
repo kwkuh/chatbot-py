@@ -3,8 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 export const RegistrationForm = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: "",
     username: "",
@@ -12,10 +14,17 @@ export const RegistrationForm = () => {
     description: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
+    
+    // Show success toast
     toast.success("Profil berhasil dibuat! Mengalihkan ke halaman pembayaran Anda...");
+    
+    // Wait for 1.5 seconds before redirecting
+    setTimeout(() => {
+      navigate(`/${formData.username}`);
+    }, 1500);
   };
 
   return (
