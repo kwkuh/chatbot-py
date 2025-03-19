@@ -1,3 +1,4 @@
+
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { WhatsAppShare } from "@/components/WhatsAppShare";
