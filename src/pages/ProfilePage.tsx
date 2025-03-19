@@ -4,19 +4,33 @@ import { Card } from "@/components/ui/card";
 import { WhatsAppShare } from "@/components/WhatsAppShare";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Copy, Share2, Heart } from "lucide-react";
+import { Copy, Share2, Heart, CreditCard } from "lucide-react";
 import { toast } from "sonner";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const ProfilePage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { username } = useParams();
-  const { profileData } = location.state || { profileData: null };
+  const [profileData, setProfileData] = useState(location.state?.profileData || null);
 
   useEffect(() => {
-    if (!profileData) {
-      navigate(`/not-found?username=${username}`, { replace: true });
+    // Try to get profile data from localStorage if not provided in location state
+    if (!profileData && username) {
+      const savedUsername = localStorage.getItem("username");
+      const savedProfileData = localStorage.getItem("profileData");
+      
+      if (savedUsername === username && savedProfileData) {
+        try {
+          const parsedData = JSON.parse(savedProfileData);
+          setProfileData(parsedData);
+        } catch (error) {
+          console.error("Error parsing saved profile data", error);
+          navigate(`/not-found?username=${username}`, { replace: true });
+        }
+      } else {
+        navigate(`/not-found?username=${username}`, { replace: true });
+      }
     }
   }, [profileData, navigate, username]);
 
@@ -112,7 +126,7 @@ const ProfilePage = () => {
           </div>
         </div>
 
-        {/* Bank Accounts Section - Improved Responsiveness */}
+        {/* Bank Accounts Section - Enhanced Display */}
         <div className="max-w-2xl mx-auto px-4">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-black text-[#221F26] flex items-center justify-center gap-2">
@@ -136,6 +150,7 @@ const ProfilePage = () => {
                     <Badge className="bg-[#1EAEDB] hover:bg-[#0FA0CE] text-white px-3 py-1 text-lg">
                       {account.bank}
                     </Badge>
+                    <CreditCard className="h-5 w-5 text-[#1EAEDB] opacity-70" />
                   </div>
                   
                   <div className="space-y-2">

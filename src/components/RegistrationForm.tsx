@@ -1,12 +1,14 @@
-import { useState } from "react";
+
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
 import { Card } from "@/components/ui/card";
+import { BankAccountForm } from "./BankAccountForm";
+import { Textarea } from "@/components/ui/textarea";
 
 export const RegistrationForm = () => {
   const navigate = useNavigate();
@@ -15,6 +17,8 @@ export const RegistrationForm = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isTyping, setIsTyping] = useState(false);
   const [usernameError, setUsernameError] = useState("");
+  const loadingRef = useRef<HTMLDivElement>(null);
+  
   const [formData, setFormData] = useState({
     fullName: "",
     username: "",
@@ -28,6 +32,21 @@ export const RegistrationForm = () => {
       }
     ]
   });
+
+  // Check localStorage for saved username during initialization
+  useEffect(() => {
+    const savedUsername = localStorage.getItem("username");
+    const savedProfileData = localStorage.getItem("profileData");
+    
+    if (savedUsername && savedProfileData) {
+      try {
+        const parsedData = JSON.parse(savedProfileData);
+        setFormData(parsedData);
+      } catch (error) {
+        console.error("Error parsing saved profile data", error);
+      }
+    }
+  }, []);
 
   const checkUsername = async (username: string) => {
     // Simulate API call to check username availability
@@ -62,6 +81,11 @@ export const RegistrationForm = () => {
     setIsLoading(true);
     setIsTyping(true);
     
+    // Scroll to loading indicator
+    if (loadingRef.current) {
+      loadingRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+    
     setTimeout(() => {
       setIsTyping(false);
       let currentProgress = 0;
@@ -72,6 +96,11 @@ export const RegistrationForm = () => {
         if (currentProgress >= 100) {
           clearInterval(interval);
           console.log("Form submitted:", formData);
+          
+          // Save data to localStorage for persistence
+          localStorage.setItem("username", formData.username);
+          localStorage.setItem("profileData", JSON.stringify(formData));
+          
           toast.success("Profile berhasil dibuat! 🎯 Mengalihkan ke halaman pembayaran kamu...");
           navigate(`/${formData.username}`, { 
             state: { 
@@ -97,19 +126,6 @@ export const RegistrationForm = () => {
         setTimeout(() => setIsTyping(false), 1000);
       }
     }
-  };
-
-  const addBankAccount = () => {
-    setFormData({
-      ...formData,
-      bankAccounts: [...formData.bankAccounts, { bank: "BCA", accountNumber: "", accountName: "" }]
-    });
-  };
-
-  const updateBankAccount = (index: number, field: string, value: string) => {
-    const newBankAccounts = [...formData.bankAccounts];
-    newBankAccounts[index] = { ...newBankAccounts[index], [field]: value };
-    setFormData({ ...formData, bankAccounts: newBankAccounts });
   };
 
   const steps = [
@@ -168,12 +184,12 @@ export const RegistrationForm = () => {
       title: "Deskripsi",
       message: "Sip! 🎯 Tulis deskripsi singkat buat halaman pembayaran kamu~",
       input: (
-        <Input
+        <Textarea
           placeholder="Cth: Hai! Welcome to my payment page 🎯"
           value={formData.description}
           onChange={(e) => setFormData({ ...formData, description: e.target.value })}
           onKeyPress={(e) => handleKeyPress(e)}
-          className="border-2 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-2 focus:ring-[#1EAEDB] font-medium text-lg h-12 max-w-md"
+          className="border-2 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-2 focus:ring-[#1EAEDB] font-medium min-h-[80px] max-w-md"
         />
       )
     },
@@ -181,59 +197,10 @@ export const RegistrationForm = () => {
       title: "Rekening Bank",
       message: "Nah, sekarang bagian penting nih! 🏦 Yuk masukin detail rekening bank kamu~",
       input: (
-        <div className="space-y-6">
-          {formData.bankAccounts.map((account, index) => (
-            <Card key={index} className="p-4 border-2 border-[#1EAEDB] bg-white space-y-4 max-w-md">
-              <div className="space-y-3">
-                <Label className="text-[#221F26] font-bold text-lg">Bank</Label>
-                <Select
-                  value={account.bank}
-                  onValueChange={(value) => updateBankAccount(index, 'bank', value)}
-                >
-                  <SelectTrigger className="border-2 border-[#1EAEDB] bg-white text-[#221F26] font-medium h-12">
-                    <SelectValue placeholder="Pilih Bank" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {["BCA", "Mandiri", "BNI", "BRI", "DANA", "GoPay", "OVO", "ShopeePay"].map((bank) => (
-                      <SelectItem key={bank} value={bank} className="font-medium">{bank}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-3">
-                <Label className="text-[#221F26] font-bold text-lg">Nomor Rekening</Label>
-                <Input
-                  placeholder="Masukkan nomor rekening"
-                  value={account.accountNumber}
-                  onChange={(e) => updateBankAccount(index, 'accountNumber', e.target.value)}
-                  onKeyPress={(e) => handleKeyPress(e, false)}
-                  className="border-2 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-2 focus:ring-[#1EAEDB] font-medium text-lg h-12"
-                />
-              </div>
-
-              <div className="space-y-3">
-                <Label className="text-[#221F26] font-bold text-lg">Nama Pemilik Rekening</Label>
-                <Input
-                  placeholder="Nama sesuai rekening"
-                  value={account.accountName}
-                  onChange={(e) => updateBankAccount(index, 'accountName', e.target.value)}
-                  onKeyPress={(e) => handleKeyPress(e, false)}
-                  className="border-2 border-[#1EAEDB] bg-white text-[#221F26] placeholder:text-gray-400 focus:ring-2 focus:ring-[#1EAEDB] font-medium text-lg h-12"
-                />
-              </div>
-            </Card>
-          ))}
-          
-          <Button
-            type="button"
-            onClick={addBankAccount}
-            variant="outline"
-            className="w-full max-w-md border-2 border-dashed border-[#1EAEDB] hover:border-[#0FA0CE] text-[#1EAEDB] hover:text-[#0FA0CE] font-bold text-lg h-12"
-          >
-            + Tambah Rekening Bank
-          </Button>
-        </div>
+        <BankAccountForm 
+          accounts={formData.bankAccounts}
+          onChange={(accounts) => setFormData({...formData, bankAccounts: accounts})}
+        />
       )
     }
   ];
@@ -250,7 +217,7 @@ export const RegistrationForm = () => {
       </div>
 
       {isLoading ? (
-        <div className="space-y-4 mb-8">
+        <div className="space-y-4 mb-8" ref={loadingRef}>
           <div className="flex items-center justify-between">
             <span className="text-2xl">🚀</span>
             <span className="font-bold text-[#1EAEDB]">{progress}%</span>
