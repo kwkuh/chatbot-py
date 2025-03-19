@@ -1,4 +1,3 @@
-
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { WhatsAppShare } from "@/components/WhatsAppShare";
@@ -15,7 +14,6 @@ const ProfilePage = () => {
   const [profileData, setProfileData] = useState(location.state?.profileData || null);
 
   useEffect(() => {
-    // Try to get profile data from localStorage if not provided in location state
     if (!profileData && username) {
       const savedUsername = localStorage.getItem("username");
       const savedProfileData = localStorage.getItem("profileData");
@@ -189,7 +187,7 @@ const ProfilePage = () => {
           </div>
         </div>
 
-        {/* WhatsApp Share Section */}
+        {/* WhatsAppShare Section - Updated to pass all bank accounts */}
         <div className="mt-16 max-w-xl mx-auto">
           <div className="text-center mb-8">
             <h3 className="text-2xl font-bold text-[#221F26]">Konfirmasi Pembayaran</h3>
@@ -197,11 +195,13 @@ const ProfilePage = () => {
               Kirim bukti pembayaran langsung ke WhatsApp dengan mudah ✨
             </p>
           </div>
-          <WhatsAppShare
-            accountName={profileData?.bankAccounts[0]?.accountName || ''}
-            accountNumber={profileData?.bankAccounts[0]?.accountNumber || ''}
-            bankName={profileData?.bankAccounts[0]?.bank || ''}
-          />
+          {profileData && profileData.bankAccounts && profileData.bankAccounts.length > 0 ? (
+            <WhatsAppShare bankAccounts={profileData.bankAccounts} />
+          ) : (
+            <div className="text-center p-4 bg-gray-100 rounded-lg">
+              <p>Tidak ada data rekening tersedia</p>
+            </div>
+          )}
         </div>
 
         {/* Footer */}
