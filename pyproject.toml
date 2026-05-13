@@ -30,13 +30,13 @@ dependencies = [
 
 [project.optional-dependencies]
 anthropic = ["anthropic>=0.40.0"]
-openai    = ["openai>=1.50.0"]
+openai    = ["openai>=2.36.0"]
 google    = ["google-genai>=0.3.0"]
 ollama    = ["ollama>=0.4.0"]
 ui        = ["streamlit>=1.36.0"]
 all       = [
     "anthropic>=0.40.0",
-    "openai>=1.50.0",
+    "openai>=2.36.0",
     "google-genai>=0.3.0",
     "ollama>=0.4.0",
     "streamlit>=1.36.0",

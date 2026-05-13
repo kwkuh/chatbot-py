@@ -4,6 +4,6 @@ streamlit>=1.36.0
 
 # Providers (all optional — install only what you need)
 anthropic>=0.40.0
-openai>=1.50.0
+openai>=2.36.0
 google-genai>=0.3.0
 ollama>=0.4.0
