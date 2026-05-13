@@ -1,119 +1,163 @@
-# domain-sell
+# chatbot-py
 
-> Open-source, single-file HTML landing page to sell individual domains via Stripe. Self-hosted, zero dependencies, drop it on the domain you're selling and you're live.
+> A simple, open-source LLM chatbot in Python — like ChatGPT, but ~150 lines of code you can actually read. Built with Anthropic Claude, Streamlit UI, conversation memory, and streaming responses.
 
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![Anthropic Claude](https://img.shields.io/badge/LLM-Claude%204.7-d97757)](https://www.anthropic.com)
+[![Streamlit](https://img.shields.io/badge/UI-Streamlit-ff4b4b)](https://streamlit.io)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Made with HTML](https://img.shields.io/badge/made%20with-HTML-orange)](https://developer.mozilla.org/docs/Web/HTML)
-[![Stripe](https://img.shields.io/badge/payments-Stripe-635bff)](https://stripe.com)
-[![No build step](https://img.shields.io/badge/build-none-brightgreen)](#quick-start)
-[![PRs welcome](https://img.shields.io/badge/PRs-welcome-blue)](https://github.com/kwkuh/domain-sell/pulls)
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)](https://github.com/kwkuh/chatbot-py/pulls)
 
-A free, open-source alternative to Sedo / Dan / Afternic / GoDaddy domain landers. Keep 97% of the sale price instead of paying 10–20% commission to a marketplace. One HTML file. One Stripe payment link. Done.
+A minimal, hackable reference implementation of an LLM-powered chatbot for learning, prototyping, and portfolio. Three modes: **Streamlit web UI**, **CLI**, and **importable library**. Swap models in one line. Pluggable system prompt. Token usage tracking. No frameworks, no abstractions you have to learn — just the Anthropic SDK.
 
 ---
 
 ## Features
 
-- **Single file** — `index.html`, no build, no framework, no backend
-- **Stripe checkout** — accept cards, wallets, BNPL, multi-currency out of the box
-- **Self-hosted** — deploy to Cloudflare Pages, GitHub Pages, Vercel, Netlify, or any static host (free tiers work)
-- **Zero dependencies** — no npm, no Python, no Docker, no analytics trackers
-- **Configurable** — edit one `CFG` block at the bottom of the HTML to set domain, price, Stripe link
-- **Low fees** — Stripe takes 2.9% + $0.30 vs. 10–20% marketplace commission
-- **Privacy-friendly** — no third-party scripts, no cookies, no telemetry
-- **WHOIS-style aesthetic** — terminal-themed lander that domainers and devs actually want to land on
+- 💬 **Multi-turn chat** with conversation memory
+- ⚡ **Streaming responses** (tokens render as they arrive)
+- 🖥️ **Streamlit web UI** + **CLI** + **Python API**
+- 🎛️ **Configurable system prompt, temperature, max tokens, model**
+- 🔢 **Token usage & cost tracking** per session
+- 🧹 **Reset / new conversation** button
+- 🪶 **Tiny** — under 200 LOC total, no framework lock-in
+- 🔌 **Provider-swappable** — Anthropic by default; OpenAI adapter in `examples/`
+- 🔒 **API key via `.env`** — no secrets in code
 
-## Why
+## Demo
 
-| | domain-sell | Sedo / Dan / Afternic |
-|---|---|---|
-| Commission | 0% | 10–20% |
-| Payment fee | 2.9% + $0.30 (Stripe) | included |
-| Hosting | self-hosted (free) | their lander |
-| Customization | full HTML/CSS control | template only |
-| Escrow | DIY via Stripe | included |
-| Open source | yes (MIT) | no |
+```
+$ python cli.py
+chatbot-py · Claude Sonnet 4.6 · type /reset to clear, /quit to exit
+you> what is retrieval-augmented generation in one sentence?
+bot> RAG combines an LLM with an external knowledge source — the model retrieves
+     relevant documents at query time and conditions its answer on them, which
+     reduces hallucination and lets you ground responses in private data.
+you> show me a 10-line python sketch
+bot> ...
+```
 
-On a $10,000 sale: Sedo keeps ~$1,500. domain-sell + Stripe keeps ~$290. You pocket the difference.
+Web UI:
+
+```bash
+streamlit run app.py
+# open http://localhost:8501
+```
 
 ## Quick start
 
 ```bash
-git clone https://github.com/kwkuh/domain-sell.git
-cd domain-sell
+git clone https://github.com/kwkuh/chatbot-py.git
+cd chatbot-py
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env   # then add your ANTHROPIC_API_KEY
 ```
 
-1. Open `index.html`, scroll to the `CFG` block at the bottom.
-2. Set your domain name, asking price, contact email, and Stripe payment link.
-3. Create a [Stripe payment link](https://dashboard.stripe.com/payment-links) for the asking price.
-4. Deploy `index.html` to the domain you're selling:
-   - **Cloudflare Pages** — drag-and-drop or `wrangler pages deploy`
-   - **GitHub Pages** — push to a `gh-pages` branch
-   - **Netlify / Vercel** — drag-and-drop deploy
-   - **Any web host** — upload the file via SFTP
+Run the web UI:
 
-That's it. The domain is now for sale.
+```bash
+streamlit run app.py
+```
+
+Or the CLI:
+
+```bash
+python cli.py
+```
+
+Or use as a library:
+
+```python
+from chatbot import Chatbot
+
+bot = Chatbot(system="You are a terse senior engineer.")
+print(bot.chat("explain async/await in 2 sentences"))
+print(bot.chat("now in 1 sentence"))   # remembers context
+```
 
 ## Configuration
 
-Inside `index.html`:
+`.env`:
 
-```js
-const CFG = {
-  domain:    "example.com",
-  price:     "$2,500 USD",
-  stripeUrl: "https://buy.stripe.com/your-payment-link",
-  email:     "you@example.com",
-};
+```
+ANTHROPIC_API_KEY=sk-ant-...
+CHATBOT_MODEL=claude-sonnet-4-6
+CHATBOT_TEMPERATURE=0.7
+CHATBOT_MAX_TOKENS=1024
+CHATBOT_SYSTEM_PROMPT=You are a helpful assistant.
 ```
 
-## Deploy examples
+Override programmatically:
 
-**Cloudflare Pages (recommended)**
-
-```bash
-npx wrangler pages deploy . --project-name=domain-sell
+```python
+bot = Chatbot(
+    model="claude-opus-4-7",
+    temperature=0.3,
+    max_tokens=2048,
+    system="You answer only in haiku.",
+)
 ```
 
-**Static via any web server**
+## Architecture
 
-```bash
-python3 -m http.server 8000   # local preview
-# then rsync/scp index.html to your server
+```
+┌──────────────┐    ┌──────────────┐    ┌───────────────────┐
+│  app.py      │    │  cli.py      │    │  your_script.py   │
+│  (Streamlit) │    │  (terminal)  │    │  (library use)    │
+└──────┬───────┘    └──────┬───────┘    └─────────┬─────────┘
+       │                   │                      │
+       └───────────┬───────┴──────────────────────┘
+                   ▼
+            ┌──────────────┐
+            │ chatbot.py   │  ← core Chatbot class
+            │              │     • history management
+            │              │     • streaming
+            │              │     • token tracking
+            └──────┬───────┘
+                   ▼
+            ┌──────────────┐
+            │ Anthropic    │
+            │ Claude API   │
+            └──────────────┘
+```
+
+Total: 3 files, ~200 LOC. Read it in 10 minutes.
+
+## Project structure
+
+```
+chatbot-py/
+├── chatbot.py          # core Chatbot class (streaming, memory, tokens)
+├── app.py              # Streamlit web UI
+├── cli.py              # terminal REPL
+├── examples/
+│   ├── openai_adapter.py    # drop-in OpenAI provider
+│   ├── system_prompts.py    # curated system prompt library
+│   └── rag_minimal.py       # 40-line RAG example
+├── requirements.txt
+├── .env.example
+└── README.md
 ```
 
 ## Roadmap
 
-- [ ] Multi-domain portfolio template
-- [ ] Offer / counter-offer flow (instead of just buy-now)
-- [ ] Optional analytics adapter (Plausible / Cloudflare Web Analytics)
-- [ ] i18n (English / Bahasa Indonesia / ES / etc.)
-- [ ] Theme variants (terminal, minimal, premium)
+- [ ] Tool use / function calling
+- [ ] Vision (image input)
+- [ ] RAG example with local FAISS index
+- [ ] Persistent chat history (SQLite)
+- [ ] Streamlit Cloud one-click deploy
+- [ ] Docker image
+- [ ] Multi-provider router (Claude / GPT / Gemini / local Ollama)
+
+## Why this exists
+
+A learning-grade reference for the AI engineering interview circuit. Most "ChatGPT clones" on GitHub are buried under LangChain abstractions you have to unlearn. This one is intentionally tiny: read `chatbot.py`, understand how an LLM chat loop actually works, fork it for your portfolio.
 
 ## Contributing
 
-PRs welcome. Keep it single-file. No build step. No frameworks.
+PRs welcome. Keep it small, keep it readable, no heavyweight frameworks.
 
 ## License
 
-MIT © [Kukuh Laksana](https://kukuh.la)
-
----
-
-```
-$ whois domain-sell
-
-███████╗███████╗██╗     ██╗
-██╔════╝██╔════╝██║     ██║
-███████╗█████╗  ██║     ██║
-╚════██║██╔══╝  ██║     ██║
-███████║███████╗███████╗███████╗
-╚══════╝╚══════╝╚══════╝╚══════╝
-
-domain:       DOMAIN-SELL
-status:       ACTIVE / OPEN-SOURCE
-license:      MIT
-created:      2026-01-15
-registrant:   Kukuh Laksana (kukuh.la)
-source:       github.com/kwkuh/domain-sell
-```
+MIT © [Kukuh Laksana](https://kukuh.la) — use it, fork it, ship it.
