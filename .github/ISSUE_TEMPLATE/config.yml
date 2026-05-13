@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Discussions
+    url: https://github.com/kwkuh/chatbot-py/discussions
+    about: Questions, ideas, show-and-tell.
+  - name: 🔒 Security
+    url: https://github.com/kwkuh/chatbot-py/security/policy
+    about: Report security vulnerabilities privately.
